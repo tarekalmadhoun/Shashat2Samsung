@@ -48,7 +48,7 @@ public sealed class UpdateFlow
 		if (UpdatesDisabled)
 		{
 			if (manual)
-				await host.DisplayAlert("شاشات", "التحديثات تصلك من مطوّر تطبيق شاشات مباشرة.", "حسناً");
+				await host.DisplayAlert("Shashat2Samsung", "التحديثات تصلك من مطوّر تطبيق Shashat2Samsung مباشرة.", "حسناً");
 			return;
 		}
 		if (_running)

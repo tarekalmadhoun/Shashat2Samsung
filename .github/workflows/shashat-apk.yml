@@ -68,12 +68,12 @@ jobs:
           mkdir -p dist
           APK=$(ls publish/android/*-Signed.apk 2>/dev/null | head -n1)
           [ -z "$APK" ] && APK=$(ls publish/android/*.apk | head -n1)
-          cp "$APK" "dist/Shashat-${VERSION_NAME}.apk"
+          cp "$APK" "dist/Shashat2Samsung-${VERSION_NAME}.apk"
           ls -la dist
 
       - uses: actions/upload-artifact@v4
         with:
-          name: Shashat-${{ env.VERSION_NAME }}
+          name: Shashat2Samsung-${{ env.VERSION_NAME }}
           path: dist/*.apk
           if-no-files-found: error
 
@@ -84,5 +84,5 @@ jobs:
         run: |
           gh release create "shashat-v${VERSION_NAME}" dist/*.apk \
             --repo "${{ github.repository }}" --target "${{ github.sha }}" \
-            --title "شاشات ${VERSION_NAME}" \
-            --notes "نزّل ملف Shashat-${VERSION_NAME}.apk وثبّته على جوالك."
+            --title "Shashat2Samsung ${VERSION_NAME}" \
+            --notes "نزّل ملف Shashat2Samsung-${VERSION_NAME}.apk وثبّته على جوالك."

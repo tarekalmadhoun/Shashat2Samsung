@@ -5,7 +5,7 @@
              xmlns:controls="clr-namespace:Apps2Samsung.Mobile.Controls"
              xmlns:shapes="clr-namespace:Microsoft.Maui.Controls.Shapes;assembly=Microsoft.Maui.Controls"
              x:Class="Apps2Samsung.Mobile.Pages.InstallerPage"
-             Title="شاشات"
+             Title="Shashat2Samsung"
              Shell.NavBarIsVisible="False"
              BackgroundColor="{DynamicResource BgColor}">
 

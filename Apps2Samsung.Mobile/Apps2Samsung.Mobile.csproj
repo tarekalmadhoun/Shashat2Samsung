@@ -42,7 +42,7 @@
 		<UseSystemResourceKeys>false</UseSystemResourceKeys>
 
 		<!-- Display name -->
-		<ApplicationTitle>شاشات</ApplicationTitle>
+		<ApplicationTitle>Shashat2Samsung</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.tarek.shashat2samsung</ApplicationId>

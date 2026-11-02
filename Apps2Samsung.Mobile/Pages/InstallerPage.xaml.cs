@@ -475,7 +475,7 @@ public partial class InstallerPage : ContentPage
 		try
 		{
 			await Microsoft.Maui.ApplicationModel.DataTransfer.Clipboard.Default.SetTextAsync(text);
-			await DisplayAlert("شاشات", $"تم نسخ {text}", "حسناً");
+			await DisplayAlert("Shashat2Samsung", $"تم نسخ {text}", "حسناً");
 		}
 		catch (Exception ex)
 		{

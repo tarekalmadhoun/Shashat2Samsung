@@ -81,7 +81,7 @@
                         <Grid ColumnDefinitions="44,*,Auto" ColumnSpacing="12" Padding="16,14">
                             <Image Grid.Column="0" Source="a2s_logo.png" WidthRequest="44" HeightRequest="44" VerticalOptions="Center" />
                             <VerticalStackLayout Grid.Column="1" Spacing="1" VerticalOptions="Center">
-                                <Label Text="شاشات Shashat2Samsung" FontSize="16" FontAttributes="Bold" />
+                                <Label Text="Shashat2Samsung" FontSize="16" FontAttributes="Bold" />
                                 <!-- its own line, wrapping: a test build's version is long (3.0.0-beta.787+b2a6ca8) -->
                                 <Label x:Name="AppVersionLabel" FontSize="13" LineBreakMode="CharacterWrap" />
                                 <HorizontalStackLayout Spacing="5">
