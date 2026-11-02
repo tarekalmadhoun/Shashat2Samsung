@@ -39,8 +39,18 @@ public sealed class UpdateFlow
 			cancellationToken: ct);
 	}
 
+	// Shashat build: the upstream updater would offer the original Apps2Samsung APK (another
+	// package and signing key), so it stays off; new Shashat builds come from the Shashat releases.
+	private static readonly bool UpdatesDisabled = true;
+
 	public async Task RunAsync(Page host, bool manual)
 	{
+		if (UpdatesDisabled)
+		{
+			if (manual)
+				await host.DisplayAlert("شاشات", "التحديثات تصلك من مطوّر تطبيق شاشات مباشرة.", "حسناً");
+			return;
+		}
 		if (_running)
 			return;
 		_running = true;

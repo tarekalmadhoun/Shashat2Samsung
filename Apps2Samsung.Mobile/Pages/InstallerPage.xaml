@@ -5,7 +5,7 @@
              xmlns:controls="clr-namespace:Apps2Samsung.Mobile.Controls"
              xmlns:shapes="clr-namespace:Microsoft.Maui.Controls.Shapes;assembly=Microsoft.Maui.Controls"
              x:Class="Apps2Samsung.Mobile.Pages.InstallerPage"
-             Title="Apps2Samsung"
+             Title="شاشات"
              Shell.NavBarIsVisible="False"
              BackgroundColor="{DynamicResource BgColor}">
 
@@ -22,6 +22,33 @@
                 <!-- The TV: name, model + IP, an LED with the status line. What to do with it sits in
                      the top bar now (▾ picks another, ⋯ has Rescan / TV information / Toolbox). -->
                 <controls:TvCardView x:Name="TvCard" />
+
+                <!-- Shashat: the phone's IP, big, with copy. This is what goes into the TV's
+                     Developer Mode "Host PC IP" field (Apps > 1 2 3 4 5). -->
+                <Border Padding="16,14" StrokeThickness="0" StrokeShape="RoundRectangle 16"
+                        BackgroundColor="{DynamicResource SurfaceColor}">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="عنوان IP لجوالك" FontSize="14" FontAttributes="Bold"
+                               HorizontalTextAlignment="Center" TextColor="{DynamicResource MutedColor}" />
+                        <Label x:Name="PhoneIpLabel" Text="…" FontSize="34" FontAttributes="Bold"
+                               HorizontalTextAlignment="Center" TextColor="{DynamicResource AccentColor}" />
+                        <Label Text="اكتبه في الشاشة: التطبيقات ← اضغط 1 2 3 4 5 ← Developer Mode: On ← Host PC IP، ثم أعد تشغيل الشاشة."
+                               FontSize="12" HorizontalTextAlignment="Center" TextColor="{DynamicResource MutedColor}" />
+                        <HorizontalStackLayout Spacing="8" HorizontalOptions="Center" Margin="0,4,0,0">
+                            <Button Text="نسخ" Clicked="OnCopyPhoneIpClicked" HeightRequest="38" CornerRadius="19"
+                                    Padding="20,0" BackgroundColor="{DynamicResource AccentSoftColor}"
+                                    TextColor="{DynamicResource AccentColor}" />
+                            <Button Text="تحديث" Clicked="OnRefreshPhoneIpClicked" HeightRequest="38" CornerRadius="19"
+                                    Padding="20,0" BackgroundColor="{DynamicResource AccentSoftColor}"
+                                    TextColor="{DynamicResource AccentColor}" />
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Shashat: one big action, pick a .wgt / .tpk from the phone and install it. -->
+                <Button Text="📁  اختر ملف التطبيق من جوالك وثبّته" Clicked="OnOwnFileButtonClicked"
+                        HeightRequest="56" CornerRadius="28" FontSize="16" FontAttributes="Bold"
+                        BackgroundColor="{DynamicResource AccentColor}" TextColor="{DynamicResource OnAccentColor}" />
 
                 <!-- No TV after a scan: what to check, and the two ways forward. -->
                 <Border x:Name="NoTvCard" IsVisible="False" Padding="16,20" StrokeThickness="0" StrokeShape="RoundRectangle 16"
@@ -48,14 +75,14 @@
 
                 <!-- Catalog -->
                 <VerticalStackLayout Spacing="10">
-                    <Border Padding="12,0" StrokeThickness="0" StrokeShape="RoundRectangle 10"
+                    <Border IsVisible="False" Padding="12,0" StrokeThickness="0" StrokeShape="RoundRectangle 10"
                             BackgroundColor="{DynamicResource FillColor}">
                         <Entry x:Name="SearchEntry" Placeholder="{l:Localize lblSearchApps}" BackgroundColor="Transparent"
                                ReturnType="Search" TextChanged="OnSearchChanged" />
                     </Border>
 
                     <!-- one short group per category, "Show all" expands it; a search is one flat group -->
-                    <VerticalStackLayout x:Name="CatalogList" Spacing="6" />
+                    <VerticalStackLayout x:Name="CatalogList" Spacing="6" IsVisible="False" />
 
                     <Label Text="{l:Localize lblYourOwnPackage}" Style="{StaticResource GroupTitle}" />
                     <Border StrokeThickness="0" StrokeShape="RoundRectangle 12" BackgroundColor="{DynamicResource SurfaceColor}">
@@ -75,7 +102,7 @@
                                          Opacity="0.35" WidthRequest="8" HeightRequest="13" VerticalOptions="Center" />
                         </Grid>
                     </Border>
-                    <Label x:Name="CatalogFoot" Style="{StaticResource Footnote}" />
+                    <Label x:Name="CatalogFoot" Style="{StaticResource Footnote}" IsVisible="False" />
                 </VerticalStackLayout>
 
                 <controls:LicenseFooter />

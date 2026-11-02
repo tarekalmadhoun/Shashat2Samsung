@@ -42,10 +42,10 @@
 		<UseSystemResourceKeys>false</UseSystemResourceKeys>
 
 		<!-- Display name -->
-		<ApplicationTitle>Apps2Samsung</ApplicationTitle>
+		<ApplicationTitle>شاشات</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>nl.madebypatrick.apps2samsung</ApplicationId>
+		<ApplicationId>com.tarek.shashat2samsung</ApplicationId>
 
 		<!-- Versions. These are placeholders for local and PR builds only: both release
 		     workflows override them on the dotnet publish command line, and
@@ -77,10 +77,10 @@
 		     grey doesn't glow on a dark home screen the way white does. Scaled into the adaptive
 		     icon's safe zone so a round or squircle mask never clips the ring. Android paints the
 		     tile whatever happens; a transparent one is not an option. -->
-		<MauiIcon Include="Resources\AppIcon\appicon.png" Color="#F2F2F7" ForegroundScale="0.68" />
+		<MauiIcon Include="Resources\AppIcon\appicon.png" Color="#021863" ForegroundScale="0.66" />
 
 		<!-- Splash Screen: logo centered on the same light grey. -->
-		<MauiSplashScreen Include="Resources\Splash\a2s_splash.png" Color="#F2F2F7" BaseSize="120,120" />
+		<MauiSplashScreen Include="Resources\Splash\a2s_splash.png" Color="#021863" BaseSize="160,160" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />

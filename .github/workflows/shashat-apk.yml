@@ -1,0 +1,88 @@
+name: Shashat APK
+
+# Builds the Shashat (شاشات) Android app and publishes the APK as a GitHub release,
+# so it can be downloaded straight from a phone.
+#
+# Signing: if the repository secrets SHASHAT_KEYSTORE_BASE64 / SHASHAT_KEYSTORE_PASSWORD are set,
+# every build is signed with that key and installs over the previous one. Without them a
+# throw-away key is generated (the APK works, but updating needs an uninstall first).
+
+on:
+  push:
+    branches: [shashat]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Install MAUI Android workload
+        run: dotnet workload install maui-android
+
+      - name: Prepare signing key
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -n "${{ secrets.SHASHAT_KEYSTORE_BASE64 }}" ]; then
+            echo "${{ secrets.SHASHAT_KEYSTORE_BASE64 }}" | base64 -d > "$PWD/shashat.keystore"
+            echo "KS_PASS=${{ secrets.SHASHAT_KEYSTORE_PASSWORD }}" >> "$GITHUB_ENV"
+          else
+            echo "::warning::No SHASHAT_KEYSTORE_BASE64 secret; signing with a one-off key."
+            PASS=$(openssl rand -hex 16)
+            keytool -genkeypair -keystore "$PWD/shashat.keystore" -alias shashat -keyalg RSA -keysize 2048 \
+              -validity 10000 -storepass "$PASS" -keypass "$PASS" -dname "CN=Shashat, O=Tarek, C=SA"
+            echo "KS_PASS=$PASS" >> "$GITHUB_ENV"
+          fi
+
+      - name: Build APK
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION_NAME="3.2.${{ github.run_number }}"
+          echo "VERSION_NAME=$VERSION_NAME" >> "$GITHUB_ENV"
+          dotnet publish Apps2Samsung.Mobile/Apps2Samsung.Mobile.csproj \
+            -c Release -f net10.0-android \
+            -p:AndroidPackageFormat=apk \
+            -p:ApplicationDisplayVersion="$VERSION_NAME" \
+            -p:ApplicationVersion="${{ github.run_number }}" \
+            -p:AndroidKeyStore=true \
+            -p:AndroidSigningKeyStore="$PWD/shashat.keystore" \
+            -p:AndroidSigningKeyAlias=shashat \
+            -p:AndroidSigningStorePass="$KS_PASS" \
+            -p:AndroidSigningKeyPass="$KS_PASS" \
+            -o publish/android
+          mkdir -p dist
+          APK=$(ls publish/android/*-Signed.apk 2>/dev/null | head -n1)
+          [ -z "$APK" ] && APK=$(ls publish/android/*.apk | head -n1)
+          cp "$APK" "dist/Shashat-${VERSION_NAME}.apk"
+          ls -la dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Shashat-${{ env.VERSION_NAME }}
+          path: dist/*.apk
+          if-no-files-found: error
+
+      - name: Publish release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "shashat-v${VERSION_NAME}" dist/*.apk \
+            --repo "${{ github.repository }}" --target "${{ github.sha }}" \
+            --title "شاشات ${VERSION_NAME}" \
+            --notes "نزّل ملف Shashat-${VERSION_NAME}.apk وثبّته على جوالك."

@@ -451,6 +451,42 @@ public partial class InstallerPage : ContentPage
 			await InstallAsync(choice.Release, choice.Asset, null, choice.NewPackageId, choice.OwnPackageId);
 	}
 
+	// Shashat: the phone's IP as the selected TV sees it (or the plain LAN address with no TV yet).
+	private void UpdatePhoneIp()
+	{
+		string? ip = null;
+		try
+		{
+			ip = _tv.HasTv ? NetworkInfo.LocalIpFor(_tv.Ip) : null;
+			ip ??= LocalIps().FirstOrDefault() ?? NetworkInfo.GetLocalIPv4();
+		}
+		catch (Exception ex)
+		{
+			System.Diagnostics.Trace.WriteLine($"[installer] Couldn't read phone IP: {ex.Message}");
+		}
+		PhoneIpLabel.Text = string.IsNullOrEmpty(ip) ? "اتصل بالواي فاي" : ip;
+	}
+
+	private async void OnCopyPhoneIpClicked(object? sender, EventArgs e)
+	{
+		var text = PhoneIpLabel.Text;
+		if (string.IsNullOrEmpty(text) || !text.Contains('.'))
+			return;
+		try
+		{
+			await Microsoft.Maui.ApplicationModel.DataTransfer.Clipboard.Default.SetTextAsync(text);
+			await DisplayAlert("شاشات", $"تم نسخ {text}", "حسناً");
+		}
+		catch (Exception ex)
+		{
+			System.Diagnostics.Trace.WriteLine($"[installer] Couldn't copy IP: {ex.Message}");
+		}
+	}
+
+	private void OnRefreshPhoneIpClicked(object? sender, EventArgs e) => UpdatePhoneIp();
+
+	private void OnOwnFileButtonClicked(object? sender, EventArgs e) => OnOwnFileTapped(sender, null!);
+
 	// "Your own package": a .wgt or .tpk from the phone, then the same install as a catalog app.
 	private async void OnOwnFileTapped(object? sender, TappedEventArgs e)
 	{
@@ -984,6 +1020,7 @@ public partial class InstallerPage : ContentPage
 	/// </summary>
 	private void UpdateTvCard()
 	{
+		UpdatePhoneIp();
 		var state = _tv.CardState();
 		TopBar.ShowTv(_tv.HasTv || _tv.IsScanning ? state : state with { Name = L10n.Get("lblNoTvFound") });
 		TopBar.TvCount = _tv.Tvs.Count;
