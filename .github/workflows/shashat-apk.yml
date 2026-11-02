@@ -33,6 +33,11 @@ jobs:
       - name: Install MAUI Android workload
         run: dotnet workload install maui-android
 
+      - name: Generate WhatsApp QR
+        run: |
+          pip install segno
+          python tools/shashat/make_whatsapp_qr.py
+
       - name: Prepare signing key
         shell: bash
         run: |

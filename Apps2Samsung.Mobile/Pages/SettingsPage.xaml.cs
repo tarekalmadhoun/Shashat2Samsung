@@ -5,6 +5,7 @@ using Apps2Samsung.Mobile.Resources.Styles;
 using Apps2Samsung.Mobile.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Maui.ApplicationModel;
+using Microsoft.Maui.Devices;
 
 namespace Apps2Samsung.Mobile.Pages;
 
@@ -22,6 +23,28 @@ public partial class SettingsPage : ContentPage
 		AppVersionLabel.Text = $"{L10n.Get("lblVersion")} {AppInfo.Current.VersionString}";
 		// Shows the app version (ApplicationDisplayVersion), so it stays in sync with the build.
 		VersionLabel.Text = $"v{AppInfo.Current.VersionString}";
+		AboutVersionLabel.Text = $"الإصدار {AppInfo.Current.VersionString} · {DeviceInfo.Current.Manufacturer} {DeviceInfo.Current.Model}";
+	}
+
+	// Shashat support contacts.
+	private const string SupportWhatsApp = "https://wa.me/962797267922";
+	private const string SupportEmail = "mailto:erpmail2020@gmail.com?subject=Shashat2Samsung";
+
+	private async void OnWhatsAppTapped(object? sender, TappedEventArgs e) => await OpenSupportAsync(SupportWhatsApp);
+	private async void OnWhatsAppClicked(object? sender, EventArgs e) => await OpenSupportAsync(SupportWhatsApp);
+	private async void OnEmailTapped(object? sender, TappedEventArgs e) => await OpenSupportAsync(SupportEmail);
+	private async void OnEmailClicked(object? sender, EventArgs e) => await OpenSupportAsync(SupportEmail);
+
+	private static async Task OpenSupportAsync(string uri)
+	{
+		try
+		{
+			await Launcher.Default.OpenAsync(new Uri(uri));
+		}
+		catch (Exception ex)
+		{
+			System.Diagnostics.Trace.WriteLine($"[settings] Couldn't open {uri}: {ex.Message}");
+		}
 	}
 
 	protected override void OnAppearing()

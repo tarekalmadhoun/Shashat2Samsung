@@ -75,8 +75,73 @@
         <ScrollView Grid.Row="1">
             <VerticalStackLayout Padding="16,4,16,20" Spacing="22">
 
+                <!-- Shashat: About card (logo, name, version, what it does, support contacts) -->
+                <Border Style="{StaticResource Card}" FlowDirection="RightToLeft">
+                    <VerticalStackLayout Padding="18,20" Spacing="14">
+                        <Image Source="shashat_logo.png" WidthRequest="170" HeightRequest="170" HorizontalOptions="Center" />
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                            <Image Grid.Column="0" Source="a2s_logo.png" WidthRequest="48" HeightRequest="48" VerticalOptions="Center" />
+                            <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                <Label FontSize="20" FontAttributes="Bold" FlowDirection="LeftToRight" HorizontalOptions="Start">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Shashat" />
+                                            <Span Text="2" TextColor="#FF9F1C" FontSize="24" />
+                                            <Span Text="Samsung" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label x:Name="AboutVersionLabel" FontSize="12" TextColor="{DynamicResource MutedColor}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                        <Label FontSize="15" LineHeight="1.3"
+                               Text="ثبّت تطبيقاتك على شاشات سامسونج الذكية مباشرة من جوالك، بدون كمبيوتر: اعرف IP جوالك لوضع المطوّر، اختر ملف التطبيق، واضغط تثبيت. للتجديد، الشراء، أو الدعم: تواصل مع الدعم الفني." />
+                        <BoxView HeightRequest="1" Color="{DynamicResource FillColor}" />
+                        <Label Text="للدعم والشكاوى" FontSize="13" TextColor="{DynamicResource MutedColor}" />
+                        <VerticalStackLayout Spacing="0">
+                            <Label Text="Shashat Team" FontSize="17" FontAttributes="Bold" />
+                            <Label Text="Shashat" FontSize="13" TextColor="{DynamicResource MutedColor}" />
+                        </VerticalStackLayout>
+                        <HorizontalStackLayout Spacing="10">
+                            <Border WidthRequest="30" HeightRequest="30" StrokeThickness="0" StrokeShape="RoundRectangle 8" BackgroundColor="#25D366">
+                                <Label Text="✆" FontSize="16" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                            <Label Text="+962797267922" FontSize="17" FlowDirection="LeftToRight" VerticalOptions="Center" />
+                            <HorizontalStackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnWhatsAppTapped" />
+                            </HorizontalStackLayout.GestureRecognizers>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Spacing="10">
+                            <Border WidthRequest="30" HeightRequest="30" StrokeThickness="0" StrokeShape="RoundRectangle 8" BackgroundColor="#E8834A">
+                                <Label Text="✉" FontSize="16" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                            <Label Text="erpmail2020@gmail.com" FontSize="16" FlowDirection="LeftToRight" VerticalOptions="Center" />
+                            <HorizontalStackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnEmailTapped" />
+                            </HorizontalStackLayout.GestureRecognizers>
+                        </HorizontalStackLayout>
+                        <Border Padding="14" StrokeThickness="0" StrokeShape="RoundRectangle 14" BackgroundColor="{DynamicResource FillColor}">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                                <Border Grid.Column="0" Padding="6" StrokeThickness="0" StrokeShape="RoundRectangle 10" BackgroundColor="White">
+                                    <Image Source="shashat_whatsapp_qr.png" WidthRequest="110" HeightRequest="110" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                    <Label Text="واتساب" FontSize="18" FontAttributes="Bold" TextColor="#25D366" />
+                                    <Label Text="امسح الرمز بكاميرا الجوال لمراسلتنا للتجديد أو الشراء" FontSize="12" TextColor="{DynamicResource MutedColor}" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                        <HorizontalStackLayout Spacing="10">
+                            <Button Text="واتساب" Clicked="OnWhatsAppClicked" HeightRequest="42" CornerRadius="14" Padding="22,0"
+                                    FontAttributes="Bold" BackgroundColor="#F2C46D" TextColor="#1A1A1A" />
+                            <Button Text="البريد" Clicked="OnEmailClicked" HeightRequest="42" CornerRadius="14" Padding="22,0"
+                                    BackgroundColor="{DynamicResource FillColor}" TextColor="{DynamicResource InkColor}" />
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
                 <!-- updates -->
-                <Border Style="{StaticResource Card}">
+                <Border Style="{StaticResource Card}" IsVisible="False">
                     <VerticalStackLayout>
                         <Grid ColumnDefinitions="44,*,Auto" ColumnSpacing="12" Padding="16,14">
                             <Image Grid.Column="0" Source="a2s_logo.png" WidthRequest="44" HeightRequest="44" VerticalOptions="Center" />
@@ -185,8 +250,8 @@
                     </VerticalStackLayout>
                 </Border>
 
-                <!-- Contribute (#820): each row opens a page in the browser -->
-                <Border Style="{StaticResource Card}">
+                <!-- Contribute (#820): hidden in Shashat -->
+                <Border Style="{StaticResource Card}" IsVisible="False">
                     <VerticalStackLayout>
                         <Grid Style="{StaticResource HubRow}">
                             <Grid.GestureRecognizers>

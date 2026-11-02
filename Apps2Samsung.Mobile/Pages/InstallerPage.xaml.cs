@@ -582,7 +582,7 @@ public partial class InstallerPage : ContentPage
 			entries.Add((new(L10n.Get("lblTvInformation"), MoreMenu.IconInfo), ShowDeviceInfoAsync));
 			entries.Add((new(L10n.Get("lblToolbox"), MoreMenu.IconToolbox), ShowTvToolboxAsync));
 		}
-		entries.Add((new(L10n.Get("lblShowAdultApps"), MoreMenu.IconShow, Checked: MobileSettings.ShowAdultApps), ToggleAdultAppsAsync));
+		// Shashat: the 18+ option is not offered; adult apps are always listed (MobileSettings.ShowAdultApps).
 		entries.Add((new(L10n.Get("lblShowRootApps"), MoreMenu.IconShow, Checked: MobileSettings.ShowRootApps), ToggleRootAppsAsync));
 		// A source of the user's own (a repository, release or file link), listed from the next refresh.
 		entries.Add((new(L10n.Get("lblAddSource"), MoreMenu.IconAdd), AddSourceAsync));

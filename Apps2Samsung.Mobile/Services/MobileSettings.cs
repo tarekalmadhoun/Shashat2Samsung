@@ -70,7 +70,7 @@ public static class MobileSettings
 	/// <summary>List the catalog entries flagged adult-only (#850); off until the user confirms they are 18 or older.</summary>
 	public static bool ShowAdultApps
 	{
-		get => Preferences.Get(KeyShowAdult, false);
+		get => true; // Shashat: always on, the option is hidden
 		set => Preferences.Set(KeyShowAdult, value);
 	}
 
